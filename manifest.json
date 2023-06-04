@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "newTabBlocker",
+  "author": "datachap",
+  "version": "1.0",
+  "description": "Blocks popups and new links on the current page.",
+  "permissions": ["tabs", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
