@@ -4,7 +4,7 @@ function deleteUnwantedLinks() {
     const allLinks = document.links;
   
     // Step 3: Iterate through the links
-    Array.from(allLinks).forEach(link => {
+    Array.from(allLinks).forEach((link) => {
       const href = link.href;
   
       // Step 4: Remove unwanted links
@@ -24,13 +24,33 @@ function deleteUnwantedLinks() {
   function getCurrentWebsite() {
     const currentWebsite = window.location.href;
     const sublinks = Array.from(document.links)
-      .map(link => link.href)
-      .filter(href => isInternalLink(href));
+      .map((link) => link.href)
+      .filter((href) => isInternalLink(href));
   
     return {
       currentWebsite,
       sublinks,
     };
+  }
+  
+  // Function to display website information on the about.html page
+  function displayWebsiteInfo() {
+    const websiteData = getCurrentWebsite();
+    const currentWebsiteElement = document.getElementById("current-website");
+    const sublinksElement = document.getElementById("sublinks");
+  
+    // Display current website
+    currentWebsiteElement.textContent = websiteData.currentWebsite;
+  
+    // Display sublinks
+    sublinksElement.innerHTML = "";
+    websiteData.sublinks.forEach((sublink) => {
+      const linkElement = document.createElement("a");
+      linkElement.href = sublink;
+      linkElement.textContent = sublink;
+      sublinksElement.appendChild(linkElement);
+      sublinksElement.appendChild(document.createElement("br"));
+    });
   }
   
   // Delete unwanted links initially
@@ -41,8 +61,6 @@ function deleteUnwantedLinks() {
     deleteUnwantedLinks();
   }, 1000);
   
-  // Get current website and sublinks
-  const websiteData = getCurrentWebsite();
-  console.log('Current Website:', websiteData.currentWebsite);
-  console.log('Sublinks:', websiteData.sublinks);
+  // Display website information on the about.html page
+  displayWebsiteInfo();
   
