@@ -1,18 +1,25 @@
 {
-  "manifest_version": 2,
-  "name": "newTabBlocker",
-  "author": "datachap",
-  "version": "1.0",
-  "description": "Blocks popups and new links on the current page.",
-  "permissions": ["tabs", "storage"],
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"]
-    }
-  ],
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "manifest_version": 2,
+    "name": "newTabBlocker",
+    "author": "datachap",
+    "version": "1.0",
+    "description": "Blocks popups and new links on the current page.",
+    "permissions": ["webNavigation", "tabs", "storage"],
+    "options_page": "about.html",
+    "default_icon": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+    "content_scripts": [
+      {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["content.js"]
+      }
+    ]
   }
-}
+  
