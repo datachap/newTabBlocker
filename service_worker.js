@@ -7,7 +7,7 @@ chrome.action.onClicked.addListener(function(tab) {
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === "complete") {
-    // Send a message to the content script to remove target="_blank" links
-    chrome.tabs.sendMessage(tabId, { type: "removeTargetBlankLinks" });
+    // Send a message to the content script to execute link_purger.js
+    chrome.tabs.sendMessage(tabId, { type: "executeLinkPurger" });
   }
 });

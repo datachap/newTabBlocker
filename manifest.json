@@ -27,7 +27,7 @@
           "https://*/*"
         ],
         "js": [
-          "tab_purger.js","link_purger.js"
+          "tab_purger.js", "link_purger.js"
         ],
         "run_at": "document_idle"
       }
