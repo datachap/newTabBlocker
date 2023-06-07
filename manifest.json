@@ -3,7 +3,7 @@
     "name": "newTabBlocker",
     "author": "datachap",
     "version": "1.0",
-    "description": "Blocks popups and new links on the current page.",
+    "description": "A simple chrome extension to block all new tabs created in a page.",
     "permissions": ["webNavigation", "tabs", "storage"],
     "options_page": "about.html",
     "default_icon": {

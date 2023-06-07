@@ -1,6 +1,17 @@
 // Enable or disable the functionality based on a condition
 var isEnabled = true; // Set this variable to true or false based on your condition
 
+// Function to remove target="_blank" links
+function removeTargetBlankLinks() {
+  var links = document.querySelectorAll('a[target="_blank"]');
+  links.forEach(function(link) {
+    link.removeAttribute('target');
+  });
+}
+
+// Mutation observer to check for changes in the DOM and remove target="_blank" links
+var observer = new MutationObserver(removeTargetBlankLinks);
+
 // Check if the functionality is enabled
 if (isEnabled) {
   // Override the window.open function to block popups
@@ -27,26 +38,14 @@ if (isEnabled) {
     event.preventDefault();
   });
 
-  // Function to remove target="_blank" links
-  function removeTargetBlankLinks() {
-    var links = document.querySelectorAll('a[target="_blank"]');
-    links.forEach(function(link) {
-      link.removeAttribute('target');
-    });
-  }
-
-  // Mutation observer to check for changes in the DOM and remove target="_blank" links
-  var observer = new MutationObserver(removeTargetBlankLinks);
+  // Observe the document body for changes and remove target="_blank" links
   observer.observe(document.body, {
     childList: true,
     subtree: true,
-    attributes: false,
-    characterData: false
+    attributes: true,
+    attributeFilter: ['href']
   });
 
   // Remove target="_blank" links on initial page load
   removeTargetBlankLinks();
-
-  // Check for dynamically added target="_blank" links every second
-  setInterval(removeTargetBlankLinks, 1000);
 }

@@ -1,5 +1,5 @@
 // Listen for the browser action being clicked
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.runtime.onClicked.addListener(function(tab) {
     // Get the current tab URL
     var currentTabUrl = tab.url;
   
