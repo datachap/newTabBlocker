@@ -1,21 +1,13 @@
 // Enable or disable the functionality based on a condition
 var isEnabled = true; // Set this variable to true or false based on your condition
 
-// Function to remove target="_blank" links
-function removeTargetBlankLinks() {
-  var links = document.querySelectorAll('a[target="_blank"]');
-  links.forEach(function(link) {
-    link.removeAttribute('target');
-  });
-}
-
 // Mutation observer to check for changes in the DOM and remove target="_blank" links
 var observer = new MutationObserver(removeTargetBlankLinks);
 
 // Check if the functionality is enabled
 if (isEnabled) {
   // Override the window.open function to block popups
-  window.open = function() {
+  window.open = function () {
     console.log("Popup blocked");
   };
 
@@ -29,12 +21,12 @@ if (isEnabled) {
   window.showModalDialog = null;
 
   // Override the Element.prototype.open function to block opening new tabs
-  Element.prototype.open = function() {
+  Element.prototype.open = function () {
     console.log("New tab blocked");
   };
 
   // Disable the context menu to prevent opening links in new tabs/windows
-  window.addEventListener("contextmenu", function(event) {
+  window.addEventListener("contextmenu", function (event) {
     event.preventDefault();
   });
 
@@ -43,9 +35,17 @@ if (isEnabled) {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['href']
+    attributeFilter: ["href"],
   });
 
   // Remove target="_blank" links on initial page load
   removeTargetBlankLinks();
+}
+
+// Function to remove target="_blank" links
+function removeTargetBlankLinks() {
+  var links = document.querySelectorAll('a[target="_blank"]');
+  links.forEach(function (link) {
+    link.removeAttribute("target");
+  });
 }
