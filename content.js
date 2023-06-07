@@ -9,6 +9,14 @@ function removeTargetBlankLinks() {
   });
 }
 
+// Function to remove target="_blank" from existing links
+function removeExistingTargetBlankLinks() {
+  var existingLinks = document.querySelectorAll('a[target="_blank"]');
+  existingLinks.forEach(function(link) {
+    link.removeAttribute("target");
+  });
+}
+
 // Mutation observer to check for changes in the DOM and remove target="_blank" links
 var observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
@@ -16,10 +24,15 @@ var observer = new MutationObserver(function(mutations) {
   });
 });
 
-// Function to block new tab creation
+// Function to block new tab creation and remove target="_blank" from links
 function blockNewTab(event) {
   event.preventDefault();
   console.log("New tab blocked");
+
+  // Remove target="_blank" links in the newly created tab
+  if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank") {
+    event.target.removeAttribute("target");
+  }
 }
 
 // Toggle the extension's enabled state
@@ -29,6 +42,7 @@ function toggleEnabled() {
   if (isEnabled) {
     // Remove target="_blank" links on initial page load
     removeTargetBlankLinks();
+    removeExistingTargetBlankLinks();
 
     // Observe the document body for changes and remove target="_blank" links
     observer.observe(document.body, {
@@ -38,7 +52,7 @@ function toggleEnabled() {
       attributeFilter: ["href"]
     });
 
-    // Override the window.open function to block popups
+    // Override the window.open function to block popups and remove target="_blank"
     window.open = blockNewTab;
     // Override the window.openDatabase function to block database creation
     window.openDatabase = null;
@@ -46,7 +60,7 @@ function toggleEnabled() {
     window.openDialog = null;
     // Override the window.showModalDialog function to block modal dialog creation
     window.showModalDialog = null;
-    // Override the Element.prototype.open function to block opening new tabs
+    // Override the Element.prototype.open function to block opening new tabs and remove target="_blank"
     Element.prototype.open = blockNewTab;
 
     console.log("Extension enabled");
