@@ -5,13 +5,13 @@ A simple chrome extension to block all new tabs created in a page.
 It is the solution for all different pages, which generate new tabs and popups by bypassing the usual
 add blocker.
 
-** Updated to Manifest version 3 **
+**Updated to Manifest version 3**
 
 ## How to install
 
-1. Goto search bar and type: * chrome://extension *
-2. Simply turn Developer Mode to ** ON ** in the top right corner.
-3. Click on the ** Load Unpacked ** button and then select your extension folder and click on ** OK **.
+1. Go to search bar and type: *chrome://extension*
+2. Simply turn Developer Mode to **ON** in the top right corner.
+3. Click on the **Load Unpacked** button and then select your extension folder and click on **OK**.
 
 ## Disclaimer:
 
