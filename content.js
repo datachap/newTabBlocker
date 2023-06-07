@@ -33,6 +33,14 @@ function blockNewTab(event) {
   if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank") {
     event.target.removeAttribute("target");
   }
+
+  // Close the newly created tab
+  if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank" && event.target.href) {
+    var newTabUrl = event.target.href;
+    chrome.tabs.create({ url: newTabUrl, active: false }, function(newTab) {
+      chrome.tabs.remove(newTab.id);
+    });
+  }
 }
 
 // Toggle the extension's enabled state
