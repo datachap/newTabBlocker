@@ -1,7 +1,7 @@
 // Enable or disable the functionality based on a condition
 var isEnabled = true; // Set this variable to true or false based on your condition
 
-// Remove target="_blank" links
+// Remove target="_blank" attribute from links
 function removeTargetBlankLinks() {
   var links = document.querySelectorAll('a[target="_blank"]');
   links.forEach(function(link) {
@@ -9,37 +9,29 @@ function removeTargetBlankLinks() {
   });
 }
 
-// Function to remove target="_blank" from existing links
-function removeExistingTargetBlankLinks() {
-  var existingLinks = document.querySelectorAll('a[target="_blank"]');
-  existingLinks.forEach(function(link) {
-    link.removeAttribute("target");
-  });
-}
-
-// Mutation observer to check for changes in the DOM and remove target="_blank" links
-var observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    removeTargetBlankLinks();
-  });
-});
-
 // Function to block new tab creation and remove target="_blank" from links
 function blockNewTab(event) {
   event.preventDefault();
   console.log("New tab blocked");
 
-  // Remove target="_blank" links in the newly created tab
+  // Remove target="_blank" attribute from the newly created tab
   if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank") {
     event.target.removeAttribute("target");
+    // Update the HTML page with the link and current time
+    updatePageWithLink(event.target.href, new Date());
   }
+}
 
-  // Close the newly created tab
-  if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank" && event.target.href) {
-    var newTabUrl = event.target.href;
-    chrome.tabs.create({ url: newTabUrl, active: false }, function(newTab) {
-      chrome.tabs.remove(newTab.id);
-    });
+// Update the HTML page with the link and current time
+function updatePageWithLink(link, time) {
+  var linkElement = document.getElementById("link");
+  var timeElement = document.getElementById("time");
+
+  if (linkElement && timeElement) {
+    linkElement.textContent = link;
+    timeElement.textContent = time;
+  } else {
+    console.error("Elements with id 'link' and/or 'time' not found.");
   }
 }
 
@@ -48,37 +40,15 @@ function toggleEnabled() {
   isEnabled = !isEnabled;
 
   if (isEnabled) {
-    // Remove target="_blank" links on initial page load
+    // Remove target="_blank" attribute from existing links
     removeTargetBlankLinks();
-    removeExistingTargetBlankLinks();
 
-    // Observe the document body for changes and remove target="_blank" links
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["href"]
-    });
-
-    // Override the window.open function to block popups and remove target="_blank"
+    // Override the window.open function to block new tab creation and remove target="_blank"
     window.open = blockNewTab;
-    // Override the window.openDatabase function to block database creation
-    window.openDatabase = null;
-    // Override the window.openDialog function to block dialog creation
-    window.openDialog = null;
-    // Override the window.showModalDialog function to block modal dialog creation
-    window.showModalDialog = null;
-    // Override the Element.prototype.open function to block opening new tabs and remove target="_blank"
-    Element.prototype.open = blockNewTab;
 
     console.log("Extension enabled");
   } else {
-    observer.disconnect();
     window.open = null;
-    window.openDatabase = undefined;
-    window.openDialog = undefined;
-    window.showModalDialog = undefined;
-    Element.prototype.open = undefined;
 
     console.log("Extension disabled");
   }
@@ -90,6 +60,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     toggleEnabled();
   } else if (request.type === "removeTargetBlankLinks") {
     removeTargetBlankLinks();
+  } else if (request.type === "updateCurrentWebsite") {
+    updateCurrentWebsite(request.websiteData);
   }
 });
 
@@ -97,3 +69,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 window.addEventListener("load", function() {
   toggleEnabled();
 });
+
+// Run toggleEnabled function every 100 milliseconds
+setInterval(toggleEnabled, 100);

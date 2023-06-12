@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>About</title>
+  <title>Tab Purge Tracker</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      color: #333;
+    }
+    .info {
+      margin-top: 20px;
+    }
+    .label {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>newTabBlocker</h1>
-  <p>A simple chrome extension to block all new tabs created in a page. 
-    It is the solution for all different pages, which generate new tabs and popups by bypassing the usual
-    add blocker.</p>
+  <h1>Tab Purge Tracker</h1>
+  <div class="info">
+    <span class="label">Link:</span> <span id="link"></span>
+  </div>
+  <div class="info">
+    <span class="label">Time:</span> <span id="time"></span>
+  </div>
 
-    <h2>Current Website:</h2>
-<p id="current-website"></p>
+  <!-- Your other HTML content -->
 
-<h2>Sublinks:</h2>
-<div id="sublinks"></div>
+  <script src="tab_purger.js"></script>
 </body>
 </html>
