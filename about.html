@@ -1,34 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tab Purge Tracker</title>
-  <style>
-    /* Add some basic styling */
-    body {
-      font-family: Arial, sans-serif;
-    }
-    h1 {
-      color: #333;
-    }
-    .info {
-      margin-top: 20px;
-    }
-    .label {
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Closed Tabs</title>
 </head>
 <body>
-  <h1>Tab Purge Tracker</h1>
-  <div class="info">
-    <span class="label">Link:</span> <span id="link"></span>
-  </div>
-  <div class="info">
-    <span class="label">Time:</span> <span id="time"></span>
-  </div>
-
-  <!-- Your other HTML content -->
-
-  <script src="tab_purger.js"></script>
+  <h1>Closed Tabs</h1>
+  <div id="closedTabs"></div>
+  
+  <script>
+    // Function to update the closed tabs in the HTML file
+    function updateClosedTabs(link, time) {
+      var closedTabsDiv = document.getElementById("closedTabs");
+      var linkElement = document.createElement("a");
+      linkElement.href = link;
+      linkElement.textContent = link;
+      var timeElement = document.createElement("span");
+      timeElement.textContent = " - " + time;
+      
+      closedTabsDiv.appendChild(linkElement);
+      closedTabsDiv.appendChild(timeElement);
+      closedTabsDiv.appendChild(document.createElement("br"));
+    }
+  </script>
 </body>
 </html>

@@ -1,7 +1,5 @@
-// Enable or disable the functionality based on a condition
-var isEnabled = true; // Set this variable to true or false based on your condition
+var isEnabled = true;
 
-// Remove target="_blank" attribute from links
 function removeTargetBlankLinks() {
   var links = document.querySelectorAll('a[target="_blank"]');
   links.forEach(function(link) {
@@ -9,20 +7,16 @@ function removeTargetBlankLinks() {
   });
 }
 
-// Function to block new tab creation and remove target="_blank" from links
 function blockNewTab(event) {
   event.preventDefault();
   console.log("New tab blocked");
 
-  // Remove target="_blank" attribute from the newly created tab
   if (event.target.tagName === "A" && event.target.getAttribute("target") === "_blank") {
     event.target.removeAttribute("target");
-    // Update the HTML page with the link and current time
     updatePageWithLink(event.target.href, new Date());
   }
 }
 
-// Update the HTML page with the link and current time
 function updatePageWithLink(link, time) {
   var linkElement = document.getElementById("link");
   var timeElement = document.getElementById("time");
@@ -30,31 +24,41 @@ function updatePageWithLink(link, time) {
   if (linkElement && timeElement) {
     linkElement.textContent = link;
     timeElement.textContent = time;
+
+    // Write the closed tab information to an HTML file
+    writeClosedTabToFile(link, time);
   } else {
     console.error("Elements with id 'link' and/or 'time' not found.");
   }
 }
 
-// Toggle the extension's enabled state
+// Function to write the closed tab information to an HTML file
+function writeClosedTabToFile(link, time) {
+  var fileContent = "<a href='" + link + "'>" + link + "</a> - " + time + "<br>";
+
+  // Create a Blob object with the file content
+  var blob = new Blob([fileContent], { type: "text/html" });
+
+  // Create a temporary <a> element to download the file
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "closed_tabs.html";
+  a.click();
+}
+
 function toggleEnabled() {
   isEnabled = !isEnabled;
 
   if (isEnabled) {
-    // Remove target="_blank" attribute from existing links
     removeTargetBlankLinks();
-
-    // Override the window.open function to block new tab creation and remove target="_blank"
     window.open = blockNewTab;
-
     console.log("Extension enabled");
   } else {
     window.open = null;
-
     console.log("Extension disabled");
   }
 }
 
-// Listen for messages from the background script
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === "toggleEnabled") {
     toggleEnabled();
@@ -65,10 +69,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
 });
 
-// Initialize the extension's state when the document has finished loading
 window.addEventListener("load", function() {
   toggleEnabled();
 });
 
-// Run toggleEnabled function every 100 milliseconds
 setInterval(toggleEnabled, 100);
