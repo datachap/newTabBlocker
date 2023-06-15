@@ -9,11 +9,15 @@
     "scripting",
     "storage"
   ],
-  "action": {},
+  "action": {
+    "default_popup": "about.html",
+    "default_icon": {
+      "16": "img/on_16.png",
+      "48": "img/on_48.png",
+      "128": "img/on_128.png"
+    }
+  },
   "icons": {
-    "16": "img/on_16.png",
-    "48": "img/on_48.png",
-    "128": "img/on_128.png",
     "16": "img/off_16.png",
     "48": "img/off_48.png",
     "128": "img/off_128.png"
@@ -28,7 +32,7 @@
         "https://*/*"
       ],
       "js": [
-        "tab_purger.js"
+        "tab_purger.js", "popup.js"
       ],
       "run_at": "document_idle"
     }

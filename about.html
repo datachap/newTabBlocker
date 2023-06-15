@@ -1,27 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Closed Tabs</title>
-</head>
-<body>
-  <h1>Closed Tabs</h1>
-  <div id="closedTabs"></div>
-  
-  <script>
-    // Function to update the closed tabs in the HTML file
-    function updateClosedTabs(link, time) {
-      var closedTabsDiv = document.getElementById("closedTabs");
-      var linkElement = document.createElement("a");
-      linkElement.href = link;
-      linkElement.textContent = link;
-      var timeElement = document.createElement("span");
-      timeElement.textContent = " - " + time;
-      
-      closedTabsDiv.appendChild(linkElement);
-      closedTabsDiv.appendChild(timeElement);
-      closedTabsDiv.appendChild(document.createElement("br"));
-    }
-  </script>
-</body>
+  <head>
+    <title>Extension Popup</title>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <h1>Extension Popup</h1>
+    <button id="toggleButton">Toggle Extension</button>
+  </body>
 </html>

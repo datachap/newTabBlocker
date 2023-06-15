@@ -1,15 +1,20 @@
 try {
-    // eslint-disable-next-line no-undef
-    importScripts("service_worker.js");
-  } catch (e) {
-    console.error(e);
+  // Register the service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service_worker.js')
+      .then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+
+        // Add an event listener for the browser action click event
+        chrome.action.onClicked.addListener(function(tab) {
+          // Send a message to the service worker to toggle the extension's enabled state
+          navigator.serviceWorker.controller.postMessage({ type: "toggleEnabled" });
+        });
+      })
+      .catch(function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
   }
-  
-  // Update the code to use chrome.action API instead of chrome.browserAction
-  
-  // Handle the browser action click event
-  chrome.action.onClicked.addListener(function(tab) {
-    // Your logic for handling the click event
-    // ...
-  });
-  
+} catch (e) {
+  console.error(e);
+}
